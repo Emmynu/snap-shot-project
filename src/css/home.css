@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    body{
+        @apply bg-slate-100
+    }
+    .image-container{
+        @apply grid grid-cols-1 mx-4 select-none cursor-pointer  relative mt-8 md:mt-28 lg:mt-0
+        items-center gap-x-3 md:grid-cols-3 md:gap-x-4 lg:grid-cols-4 lg:mx-12 lg:gap-x-8
+    }
+    .image{
+        @apply rounded-md shadow-md mt-2;
+        width: 100%;
+        /* height: 400px; */
+        object-fit: cover;
+        object-position: center;
+    }
+    .download-btn{
+        @apply absolute bottom-3 right-3 z-50 text-white
+    }
+    .error{
+        @apply text-xl font-bold text-center text-slate-600 dark:text-slate-50 -mt-12 cursor-pointer select-none md:text-2xl lg:text-2xl ;
+    }
+    .loading{
+        @apply animate-spin ml-6 mt-0 w-12 md:mt-28 lg:mt-28
+    }
+    .video-image{
+        width: 100%;
+        height: 300px;
+        @apply shadow-md rounded-md object-center object-cover  mt-6
+    }
+    .play-btn{
+        @apply absolute top-3 left-3 
+    }
+    .home-detailed-photos-container{
+        @apply grid grid-cols-1 m-7 md:grid-cols-2 lg:grid-cols-2 gap-5 lg:m-14
+    }
+    .home-detailed-photos-container section img{
+        width: 95%;
+        height: 340px;
+        @apply object-cover object-center rounded-md shadow-md
+    }
+    .download{
+        @apply bg-emerald-600 text-white px-3 py-1 rounded-md font-medium
+    }
+    .photo-alt{
+        @apply font-medium my-1
+    }
+    .sm-filter-box-container{
+        @apply flex -mt-5 border-slate-700 justify-center p-2 dark:bg-slate-200 dark:border-none rounded-md mx-12 md:hidden lg:hidden;
+        border: 1px solid;
+    }
+    .filter-text{
+        @apply font-medium text-base
+    }
+    .sm-links{
+        @apply flex  cursor-pointer select-none dark:bg-slate-200 dark:border-none border-slate-700 font-medium text-base mt-2  p-2 rounded-md mx-16 justify-center md:hidden lg:hidden ;
+        border: 1px solid;
+        transition: var(--trans);
+    }
+    .sm-links:hover, .sm-links:focus{
+        @apply bg-slate-600 text-white
+    }
+}
+
+@media (max-width: 500px) {
+    .image{
+        height: 300px;
+    }
+    .home-detailed-photos-container section img{
+        width:100%
+    }
+  
+}

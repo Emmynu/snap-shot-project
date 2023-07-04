@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    :root{
+        --primary-100: #fae8ff;
+        --primary-200: #f5d0fe;
+        --primary-300: #f0abfc;
+        --primary-400: #e879f9;
+        --primary-500: #d946ef;
+        --primary-600: #c026d3;
+        --primary-700: #a21caf;
+        --primary-800: #86198f;
+        --primary-900: #701a75;
+        --grey-50: #f8fafc;
+        --grey-100: #f1f5f9;
+        --grey-200: #e2e8f0;
+        --grey-300: #cbd5e1;
+        --grey-400: #94a3b8;
+        --grey-500: #64748b;
+        --grey-600: #475569;
+        --grey-700: #334155;
+        --grey-800: #1e293b;
+        --grey-900: #0f172a;
+        --black: #222;
+        --white: #fff;
+        --red-light: #f8d7da;
+        --red-dark: #842029;
+        --green-light: #d1e7dd;
+        --green-dark: #0f5132;
+        --small-text: .875rem;
+        --extra-small-text: .7em;
+        --backgroundColor: var(--grey-50);
+        --textColor: var(--grey-900);
+        --borderRadius: .25rem;
+        --letterSpacing: 1px;
+        --transition: .3s ease-in-out all;
+        --font: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        --trans: all 1s linear;
+        --max-width: 1120px;
+        --fixed-width: 600px;
+        --shadow-1: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+        --shadow-2: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+        --shadow-3: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
+        --shadow-4: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04);
+    }
+    body{
+        @apply dark:bg-slate-700;
+        transition: var(--trans);
+    }
+   .nav{
+        @apply fixed bg-slate-50  py-2 left-0 right-0 top-0 z-50 shadow-md select-none cursor-pointer dark:bg-slate-300;
+        transition: var(--trans);
+   }
+    .navigation-container{
+        @apply flex justify-between items-center py-3 px-6 
+    }
+    .logo{
+        @apply text-2xl md:text-3xl lg:text-4xl font-bold 
+    }
+    .nav-third-section{
+        @apply hidden items-center md:flex lg:flex
+    }
+    .upload-btn{
+        @apply bg-emerald-600 text-white ml-1 px-5 py-2 text-base tracking-wide font-medium rounded-md select-none
+    }
+    .nav-second-container{
+        @apply bg-slate-200 hidden relative py-2 px-4 rounded-md md:block lg:block;
+        width: 50%;
+    }
+    .nav-second-container-sub{
+        @apply flex items-center
+    }
+    .nav-second-container-sub input{
+        @apply w-full h-full p-1 mx-1 bg-slate-200 outline-none font-medium text-sm
+    }
+    .search{
+        @apply text-sm font-medium tracking-wide transition-colors hover:text-emerald-500
+    }
+    .segment-1{
+        @apply flex pr-7 pl-1.5 ;
+        border-right: 1px solid rgb(36, 35, 35)
+    }
+    .type{
+        @apply font-medium mr-1 
+    }
+    .nav-fourth-section{
+        @apply flex items-center  md:hidden lg:hidden
+    }
+    .nav-fourth-section div{
+        @apply ml-1 cursor-pointer
+    }
+    .bar-1,.bar-2,.bar-3{
+        @apply bg-emerald-600 rounded-md mt-1;
+        width: 25px;
+        height: 3px
+    }
+    
+    .filter-box-container{
+        @apply absolute bg-slate-200  hidden border-slate-600 px-6 shadow-md md:left-36 lg:left-56 md:block lg:block;
+        border: 1px solid;
+    }
+    .links{
+        @apply pt-2 hover:opacity-70
+    }
+    .sm-input{
+        @apply bg-slate-200 outline-none border font-medium text-sm border-slate-700 px-2 py-1 text-slate-800 rounded-md mb-1 w-4/5
+    }
+   
+ }
