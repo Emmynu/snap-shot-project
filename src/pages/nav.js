@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from "react";
-import { Outlet,  useSearchParams, NavLink,Link } from "react-router-dom";
+import { Outlet,  useSearchParams, NavLink,Link, json } from "react-router-dom";
 import "../css/nav.css"
 import arrowUpIcon  from "../images/arrow-up.png"
 import arrowDownIcon  from "../images/arrow-down.png"
@@ -8,6 +8,8 @@ import darkModeIcon from "../images/dark-mode-icon.png"
 import lightModeIcon from "../images/light-mode-icon.png"
 import { createClient } from "pexels";
 import ErrorHandler from "./error";
+import searchInfo from "./search-info";
+
 
 
 function reducer(state, action){
@@ -29,7 +31,12 @@ function reducer(state, action){
     }
     if(action.type === "TOGGLE_INPUT"){
       state.showSmInput  = !state.showSmInput
-      return{...state, showSmInput: state.showSmInput}
+      state.showRecentlySearchedItems = !state.showRecentlySearchedItems
+      return{...state, showSmInput: state.showSmInput,showRecentlySearchedItems:state.showRecentlySearchedItems}
+    }
+    if(action.type=== "SHOW_SEARCH_CONTENT"){
+      state.showRecentlySearchedItems = !state.showRecentlySearchedItems
+      return {...state,showRecentlySearchedItems:state.showRecentlySearchedItems}
     }
 
     return state
@@ -41,7 +48,7 @@ const changetheme = {
     isDarkMode: false,
     showFilter: false,
     showSmInput: false,
-    
+    showRecentlySearchedItems:false
 }
 
 
@@ -53,16 +60,27 @@ export default function NavigationBar(){
     const [searchedVideos,setSearchedVideos] = useState([])
     const [isError, setIsError] = useState(false)
     let type = searchParams.get("type")
+    const recentlySearchedItemsFromLocalStorage = JSON.parse(localStorage.getItem("recentlysearchedItems")) || []
     
+     let searches =   <div className="recent-searches">
+            <span className="parent-searches">
+              <h2  className="search-text">Recent searches</h2>
+              <h2  className=" text-sm search-text">clear all</h2>
+            </span>
+          {recentlySearchedItemsFromLocalStorage.map((search)=>{
+          return (
+            <div className="parent-searches border-b border-slate-400 ml-3 mr-2">
+              <h2 className="mt-3  pb-2">{search.searches}</h2>
+              <button className="search-text">x</button>
+          </div>)})}
+        </div>
 
    function getSearchedPhotos(){
       const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
       const query = searchValue;
-      console.log(query);
       client.photos.search({ query, per_page: 36 }).then(photos => {setSearchedPhotos(photos.photos); setIsError(false)}).catch(err=>{
         setIsError(true)
       });
-    //  setSearchValue("")
     }
 
    function getSearchedVideo(){
@@ -71,7 +89,9 @@ export default function NavigationBar(){
     client.videos.search({ query, per_page: 36 }).then(videos =>{ setSearchedVideos(videos.videos);setIsError(false)})
     .catch(err => setIsError(true));
   }
-
+  function showSearchInfos(){
+   dispatch({type: "SHOW_SEARCH_CONTENT"})
+  }
     if(isError){
       return(
         <div>
@@ -104,8 +124,10 @@ export default function NavigationBar(){
           getSearchedVideo()
         }
         else if(type === "photo"){
-          getSearchedPhotos()
+          getSearchedPhotos();
         }
+       searchInfo(searchValue)
+       state.showRecentlySearchedItems = false
       }
       else{
         console.log("Provide a value")
@@ -140,7 +162,7 @@ export default function NavigationBar(){
                   </div>
 
                   <form className="w-full" onSubmit={handleSubmit}>
-                    <input type="text" placeholder={`search for ${type || "Photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)}/>
+                    <input type="text" placeholder={`search for ${type || "Photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)} onClick={showSearchInfos}/>
                   </form>
 
                   <button className="search" >
@@ -178,7 +200,7 @@ export default function NavigationBar(){
             </nav>
 
             <form className="flex justify-center" onSubmit={handleSubmit}>
-                <input type="text" className={` ${state.showSmInput ? "sm-input" : "hidden"}`} placeholder={`search for ${type || "photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)}/>
+                <input type="text" className={` ${state.showSmInput ? "sm-input" : "hidden"}`} placeholder={`search for ${type || "photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)} onClick={showSearchInfos}/>
             </form>
 
           <div className={`${state.showFilter ? "filter-box-container": "hidden"}`}>
@@ -189,8 +211,10 @@ export default function NavigationBar(){
                 <NavLink to="?type=video">Videos</NavLink>
              </div>
           </div>
+          <div>
+            {state.showRecentlySearchedItems ? searches: null}
+        </div>
        </nav>
-        
         <Outlet context={{ searchValue, searchedPhotos,searchedVideos }}/>
       </>
     )

@@ -7,7 +7,7 @@ import GetHomeVideos from "./home-videos"
 import playIcon from "../images/play-icon.png"
 import downloadIcon from "../images/download.png"
 import { downloadFile } from "./download";
-
+let trendingSearches = ["Nature", "Butterfly", "Rabbit", "Kitten", "Puppies", "Seas","Waterfall","Paintings","dark", "beautiful","space", "fireworks", "Technology"]
 
 function reducer(state, action){
   if(action.type === "TOGGLE_SM_FILTER"){
@@ -26,6 +26,7 @@ export default function HomePage(){
     const [ searchParams, setSearchParams] = useSearchParams()
     const [state, dispatch] = useReducer(reducer, smFilters)
     let { searchValue,searchedPhotos,searchedVideos } = useOutletContext()
+    let filterType = searchParams.get("type")
     let videoLink;
     function downloadVideo(id){
       searchedVideos.map((video)=>{
@@ -80,13 +81,11 @@ export default function HomePage(){
           </section>
       )
   })
-    console.log(searchValue);
-    let filterType = searchParams.get("type")
 
     let HomeInfo = filterType === "video" ? <GetHomeVideos /> :  <GetHomePhotos/>
   
      if(!searchValue && filterType === "video"){
-        HomeInfo = <GetHomeVideos />
+        HomeInfo = <GetHomeVideos />;
      }
      else if(!searchValue && filterType === "photo"){
         HomeInfo = <GetHomePhotos />
@@ -97,7 +96,10 @@ export default function HomePage(){
      else if(searchValue && filterType === "video"){
       HomeInfo = videoContainer
     }
-
+    // else if(searchValue && filterType === null || filterType=== ""){
+    //   HomeInfo = imageContainer
+    // }
+    // console.log(filterType);
 
     function toggleSmFilter(){
       dispatch({type: "TOGGLE_SM_FILTER"})
@@ -105,6 +107,7 @@ export default function HomePage(){
 
     return(
       <>
+      
        <main className="mt-36  ">
            <section className="sm-filter-box-container" onClick={toggleSmFilter}>
               <img src={filterIcon} alt="filter-icon" className="w-6 mr-2 select-none cursor-pointer"/>
@@ -116,6 +119,11 @@ export default function HomePage(){
                   <Link to="?type=video" className="sm-links">Videos</Link>
               </section>: null}
           </main>
+           {/* <div className="">{trendingSearches}</div> */}
+           <h1 className="mt-8 ml-5 md:ml-5 lg:ml-6 lg:mt-6">
+            <span className="header">{filterType !== null ? `Get Free ${filterType}s` : "Get Free Photos"}</span>
+           </h1>
+           
         <div className='image-container'>
             {HomeInfo}
         </div>

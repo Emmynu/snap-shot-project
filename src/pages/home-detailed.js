@@ -13,8 +13,6 @@ export default function HomePhotoDetailedPage(){
     const [error, setError] = useState(false)
     const [isLoading,  setIsLoading] = useState(true)
     const [downloading, setDownloading] = useState(false)
-    const location = useLocation()
-    // console.log(location);
 
     const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
     client.photos.show({ id: params.homePhotoId }).then(photo =>{
