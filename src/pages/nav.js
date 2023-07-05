@@ -51,27 +51,36 @@ export default function NavigationBar(){
     const [searchParams, setSearchParams]= useSearchParams()
     const [searchedPhotos, setSearchedPhotos] = useState([])
     const [searchedVideos,setSearchedVideos] = useState([])
+    const [isError, setIsError] = useState(false)
     let type = searchParams.get("type")
     
 
-    function getSearchedPhotos(){
+   function getSearchedPhotos(){
       const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
       const query = searchValue;
       console.log(query);
-      client.photos.search({ query, per_page: 36 }).then(photos => setSearchedPhotos(photos.photos)).catch(err=>{
-        <ErrorHandler />
+      client.photos.search({ query, per_page: 36 }).then(photos => {setSearchedPhotos(photos.photos); setIsError(false)}).catch(err=>{
+        setIsError(true)
       });
-     setSearchValue("")
+    //  setSearchValue("")
     }
 
    function getSearchedVideo(){
     const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
     const query = searchValue;
-    client.videos.search({ query, per_page: 36 }).then(videos => setSearchedVideos(videos.videos))
-    .catch(err => <ErrorHandler />);
-    setSearchValue("")
+    client.videos.search({ query, per_page: 36 }).then(videos =>{ setSearchedVideos(videos.videos);setIsError(false)})
+    .catch(err => setIsError(true));
+  }
 
+    if(isError){
+      return(
+        <div>
+           <ErrorHandler />
+           <Link to="/" >Back to Home</Link>
+        </div>
+      )
     }
+    
 
    
 // function for toggling the theme of the website
@@ -97,9 +106,6 @@ export default function NavigationBar(){
         else if(type === "photo"){
           getSearchedPhotos()
         }
-        else if(type === null){
-          getSearchedPhotos()
-        }
       }
       else{
         console.log("Provide a value")
@@ -114,6 +120,8 @@ export default function NavigationBar(){
       else{
         document.documentElement.classList.remove("dark")
       }
+
+      
     return(
       <>
        

@@ -13,7 +13,7 @@ export function GetHomePhotos(){
     const[isLoading, setIsLoading] = useState(true)
     const[isError, setIsError] = useState(false)
     
-    const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ'); // api key
+    const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');// api key
     client.photos.curated({ per_page: 36 }).then(photos => {
         setHomePhotos(photos.photos)
         setIsLoading(false)
@@ -39,7 +39,7 @@ export function GetHomePhotos(){
         const {id,url,src,photographer,photographer_url,avg_color,liked,alt} = picture
         return(
                  <div className="mt-4 md:mt-5 lg:mt-7 relative">
-                   <Link to={`${id}`}> <img src={src.large2x} alt={id} className='image'/> </Link>
+                   <Link to={`${id}`}> <img src={src.large2x} alt={id} className='image'/></Link>
                     <button className="download-btn" onClick={()=>downloadBtn(id)}>
                         <img src={downloadIcon} alt="download" />
                     </button>

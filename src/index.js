@@ -4,6 +4,7 @@ import NavigationBar from './pages/nav';
 import HomePage from './pages/home';
 import HomePhotoDetailedPage from './pages/home-detailed';
 import ErrorHandler from './pages/error';
+import PlayVideo from './pages/play-video';
 import  {createBrowserRouter,createRoutesFromElements,Route,RouterProvider} from "react-router-dom"
 function Main(){
 
@@ -11,6 +12,7 @@ function Main(){
     <Route path='/' element={<NavigationBar/>}>
       <Route index element={<HomePage />}></Route>
       <Route path=":homePhotoId" element={<HomePhotoDetailedPage />}/>
+      <Route path='/video/:videoId' element={<PlayVideo />}></Route>
       <Route path='*' element={<ErrorHandler/>}/>
     </Route>
   ))

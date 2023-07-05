@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from "react";
-import { NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { createClient } from "pexels";
 import playIcon from "../images/play-icon.png"
 import downloadIcon from "../images/download.png"
@@ -14,7 +14,6 @@ export default function GetHomeVideos(){
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
     const [showFilter, setShowFilter] = useState(false)
-    // const [state,dispatch] = useReducer(reducer,videoState)
     let videoLink = ""
 
     function playVideo(id){
@@ -70,6 +69,7 @@ export default function GetHomeVideos(){
     let videoContainer = videos.map((video)=>{
         const {image,id,video_files} = video
         return(
+           <Link to={`/video/${id}`}>
             <section>
                 <div className="video-image-container relative">
                     <img src={image} alt="image_url"className="video-image cursor-pointer select-none" />
@@ -81,6 +81,7 @@ export default function GetHomeVideos(){
                     </button>
                 </div>
             </section>
+           </Link>
         )
     })
     return(

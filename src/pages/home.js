@@ -69,7 +69,7 @@ export default function HomePage(){
       return(
           <section>
               <div className="relative">
-                 <img src={image} alt={id} className="video-image cursor-pointer select-none" />
+                  <Link to={`/video/${id}`}> <img src={image} alt={id} className="video-image cursor-pointer select-none" /></Link>
                   <button className="play-btn">
                       <img src={playIcon} alt="play-icon" className="bg-black rounded-md"/>
                   </button>
@@ -96,7 +96,8 @@ export default function HomePage(){
      }
      else if(searchValue && filterType === "video"){
       HomeInfo = videoContainer
-   }
+    }
+
 
     function toggleSmFilter(){
       dispatch({type: "TOGGLE_SM_FILTER"})
@@ -106,7 +107,7 @@ export default function HomePage(){
       <>
        <main className="mt-36  ">
            <section className="sm-filter-box-container" onClick={toggleSmFilter}>
-              <img src={filterIcon} alt="filter-icon" className="w-6 mr-2"/>
+              <img src={filterIcon} alt="filter-icon" className="w-6 mr-2 select-none cursor-pointer"/>
               <h2 className="filter-text">Filters</h2>
            </section>
 
