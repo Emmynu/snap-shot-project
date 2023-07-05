@@ -38,6 +38,10 @@ function reducer(state, action){
       state.showRecentlySearchedItems = !state.showRecentlySearchedItems
       return {...state,showRecentlySearchedItems:state.showRecentlySearchedItems}
     }
+    // if(action.type === "DELETE_SEARCH"){
+    //   state.SearchedItemsFromLocalStorage= state.SearchedItemsFromLocalStorage.filter((item)=>item.id !== action.payload)
+    //   return{...state, SearchedItemsFromLocalStorage:state.SearchedItemsFromLocalStorage}  
+    // }
 
     return state
 }
@@ -48,7 +52,9 @@ const changetheme = {
     isDarkMode: false,
     showFilter: false,
     showSmInput: false,
-    showRecentlySearchedItems:false
+    showRecentlySearchedItems:false,
+    SearchedItemsFromLocalStorage: JSON.parse(localStorage.getItem("recentlysearchedItems")) || []
+
 }
 
 
@@ -60,18 +66,19 @@ export default function NavigationBar(){
     const [searchedVideos,setSearchedVideos] = useState([])
     const [isError, setIsError] = useState(false)
     let type = searchParams.get("type")
-    const recentlySearchedItemsFromLocalStorage = JSON.parse(localStorage.getItem("recentlysearchedItems")) || []
     
-     let searches =   <div className="recent-searches">
+     let searches = <div className="recent-searches">
             <span className="parent-searches">
               <h2  className="search-text">Recent searches</h2>
               <h2  className=" text-sm search-text">clear all</h2>
             </span>
-          {recentlySearchedItemsFromLocalStorage.map((search)=>{
+
+          {state.SearchedItemsFromLocalStorage.map((search)=>{
+            console.log(search);
           return (
             <div className="parent-searches border-b border-slate-400 ml-3 mr-2">
               <h2 className="mt-3  pb-2">{search.searches}</h2>
-              <button className="search-text">x</button>
+              <button className="search-text" >x</button>
           </div>)})}
         </div>
 
