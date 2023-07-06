@@ -13,6 +13,7 @@ export function GetHomePhotos(){
     const[isLoading, setIsLoading] = useState(true)
     const[isError, setIsError] = useState(false)
     
+    // fetching the data using channing
     const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');// api key
     client.photos.curated({ per_page: 36 }).then(photos => {
         setHomePhotos(photos.photos)
@@ -24,6 +25,8 @@ export function GetHomePhotos(){
         setIsError(true)
     }); // catching errors
 
+
+    // function for downloading each image if their ids are a match by mapping over to check
     function downloadBtn(id){
         homePhotos.find((item)=>{
             if(item.id === id){
@@ -32,8 +35,7 @@ export function GetHomePhotos(){
         })
     }
 
-    //  for coverting the url to jpeg and download the image
-
+    //  Mapping over the array to display the fetched data
 
    let photo =  homePhotos.map((picture)=>{
         const {id,url,src,photographer,photographer_url,avg_color,liked,alt} = picture
@@ -48,12 +50,14 @@ export function GetHomePhotos(){
         )
     })
 
+    // checking loading state
     if(isLoading){
         return(
            <LoadingData/>
         )
     }
 
+    // checking error state
     if(isError){
         return(
             <>
@@ -61,7 +65,8 @@ export function GetHomePhotos(){
             </>
         ) 
     }
+    // displaying the data if successfully fetched
     return(
-       <>{photo}</>
+       <div className='image-container'>{photo}</div>
     )
 }

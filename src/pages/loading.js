@@ -4,7 +4,7 @@ import loadingIcon from "../images/loading.png"
 
 export default function LoadingData(){
     return(
-    <div>
+    <div className="mt-32">
         <img src={loadingIcon} alt='loading-icon'  className='loading'/>
     </div>
     )

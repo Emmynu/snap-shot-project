@@ -73,19 +73,10 @@
         @apply bg-slate-200 w-3/4 mt-0 px-4 text-slate-400 absolute  md:w-1/2 lg:w-1/2 lg:-mt-2 lg:px-6 pt-4 pb-8 rounded-md font-medium text-base;
         margin-left: 20%;
     }
-    .parent-searches{
-        @apply flex justify-between items-center
-    }
-    .search-text{
-        @apply  text-base font-medium text-slate-400
-    }
+  
 }
 
-@media (max-width:800px) {
-    .recent-searches{
-        margin-left: 14%;
-    }
-}
+
 
 @media (max-width: 500px) {
     .image{

@@ -9,9 +9,10 @@ import lightModeIcon from "../images/light-mode-icon.png"
 import { createClient } from "pexels";
 import ErrorHandler from "./error";
 import searchInfo from "./search-info";
+import Nav from "./navigationBar";
 
 
-
+// reducer function
 function reducer(state, action){
     if(action.type === "CHANGE_THEME"){
         state.isDarkMode = !state.isDarkMode
@@ -31,33 +32,25 @@ function reducer(state, action){
     }
     if(action.type === "TOGGLE_INPUT"){
       state.showSmInput  = !state.showSmInput
-      state.showRecentlySearchedItems = !state.showRecentlySearchedItems
-      return{...state, showSmInput: state.showSmInput,showRecentlySearchedItems:state.showRecentlySearchedItems}
+      return{...state, showSmInput: state.showSmInput}
     }
-    if(action.type=== "SHOW_SEARCH_CONTENT"){
-      state.showRecentlySearchedItems = !state.showRecentlySearchedItems
-      return {...state,showRecentlySearchedItems:state.showRecentlySearchedItems}
+    if(action.type === "TOGGLE_NAV_SM"){
+      state.showNavigations = !state.showNavigations
+      return{...state, showNavigations:state.showNavigations}
     }
-    // if(action.type === "DELETE_SEARCH"){
-    //   state.SearchedItemsFromLocalStorage= state.SearchedItemsFromLocalStorage.filter((item)=>item.id !== action.payload)
-    //   return{...state, SearchedItemsFromLocalStorage:state.SearchedItemsFromLocalStorage}  
-    // }
-
-    return state
+   throw new Error("No matching action")
 }
 
-
-
+// state for the reducer
 const changetheme = {
     isDarkMode: false,
     showFilter: false,
     showSmInput: false,
     showRecentlySearchedItems:false,
-    SearchedItemsFromLocalStorage: JSON.parse(localStorage.getItem("recentlysearchedItems")) || []
+    SearchedItemsFromLocalStorage: JSON.parse(localStorage.getItem("recentlysearchedItems")) || [],
+    showNavigations:false
 
 }
-
-
 export default function NavigationBar(){
     const [state,dispatch] = useReducer(reducer, changetheme)
     const [searchValue, setSearchValue] = useState("")
@@ -67,20 +60,6 @@ export default function NavigationBar(){
     const [isError, setIsError] = useState(false)
     let type = searchParams.get("type")
     
-     let searches = <div className="recent-searches">
-            <span className="parent-searches">
-              <h2  className="search-text">Recent searches</h2>
-              <h2  className=" text-sm search-text">clear all</h2>
-            </span>
-
-          {state.SearchedItemsFromLocalStorage.map((search)=>{
-            console.log(search);
-          return (
-            <div className="parent-searches border-b border-slate-400 ml-3 mr-2">
-              <h2 className="mt-3  pb-2">{search.searches}</h2>
-              <button className="search-text" >x</button>
-          </div>)})}
-        </div>
 
    function getSearchedPhotos(){
       const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
@@ -96,9 +75,8 @@ export default function NavigationBar(){
     client.videos.search({ query, per_page: 36 }).then(videos =>{ setSearchedVideos(videos.videos);setIsError(false)})
     .catch(err => setIsError(true));
   }
-  function showSearchInfos(){
-   dispatch({type: "SHOW_SEARCH_CONTENT"})
-  }
+
+    // handling the error
     if(isError){
       return(
         <div>
@@ -111,17 +89,21 @@ export default function NavigationBar(){
 
    
 // function for toggling the theme of the website
-
     function changeTheme(){
         dispatch({type: "CHANGE_THEME"})
     }
 
+// function for toggling filter for small screen sizes
     function toggleFilter(){
       dispatch({type: "TOGGLE_FILTER"})
     }
-
+// function for toggling input for small screen sizes
     function toggleInput(){
       dispatch({type: "TOGGLE_INPUT"})
+    }
+
+    function toggleNav(){
+      dispatch({type: "TOGGLE_NAV_SM"})
     }
 
     function handleSubmit(e){
@@ -134,14 +116,10 @@ export default function NavigationBar(){
           getSearchedPhotos();
         }
        searchInfo(searchValue)
-       state.showRecentlySearchedItems = false
-      }
-      else{
-        console.log("Provide a value")
       }
     }
 
-
+// getting the theme from localstorage to apply the correct theme if true or false
     let getTheme =  JSON.parse(localStorage.getItem("theme"))
     if(getTheme){
         document.documentElement.classList.add("dark")
@@ -153,7 +131,6 @@ export default function NavigationBar(){
       
     return(
       <>
-       
        <nav className="nav ">
           <nav className="navigation-container ">
               <section>
@@ -169,7 +146,7 @@ export default function NavigationBar(){
                   </div>
 
                   <form className="w-full" onSubmit={handleSubmit}>
-                    <input type="text" placeholder={`search for ${type || "Photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)} onClick={showSearchInfos}/>
+                    <input type="text" placeholder={`search for ${type || "Photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)}/>
                   </form>
 
                   <button className="search" >
@@ -188,7 +165,7 @@ export default function NavigationBar(){
                 <button className="upload-btn">Sign In</button>
               </section>
 
-              <section className="nav-fourth-section ">
+            <section className="nav-fourth-section ">
                <div>
                   <img src={searchIcon} alt="search-icon" className="w-6" onClick={toggleInput}/>
                </div>
@@ -197,17 +174,18 @@ export default function NavigationBar(){
                 <img src={state.isDarkMode ? lightModeIcon : darkModeIcon} alt="theme-icon" className="w-6" onClick={changeTheme}/>
                </div>
 
-               <div className="bar-container -mt-1">
-                 <div className="bar-1"></div>
-                 <div  className="bar-2"></div>
-                 <div  className="bar-3"></div>
-               </div>
-              </section>
-              
+              {!state.showNavigations ?  <div className="bar-container -mt-1" onClick={toggleNav}>
+                  <div className="bar-1"></div>
+                  <div  className="bar-2"></div>
+                  <div  className="bar-3"></div>
+               </div> : <span onClick={toggleNav} className="text-2xl font-medium ml-0.5 mt-0 text-red-500">X</span>
+                }
+            </section>
+              {state.showNavigations && <Nav />}
             </nav>
 
             <form className="flex justify-center" onSubmit={handleSubmit}>
-                <input type="text" className={` ${state.showSmInput ? "sm-input" : "hidden"}`} placeholder={`search for ${type || "photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)} onClick={showSearchInfos}/>
+                <input type="text" className={` ${state.showSmInput ? "sm-input" : "hidden"}`} placeholder={`search for ${type || "photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)}/>
             </form>
 
           <div className={`${state.showFilter ? "filter-box-container": "hidden"}`}>
@@ -218,11 +196,9 @@ export default function NavigationBar(){
                 <NavLink to="?type=video">Videos</NavLink>
              </div>
           </div>
-          <div>
-            {state.showRecentlySearchedItems ? searches: null}
-        </div>
        </nav>
         <Outlet context={{ searchValue, searchedPhotos,searchedVideos }}/>
       </>
     )
 }
+

@@ -17,11 +17,12 @@ export default function GetHomeVideos(){
     let videoLink = ""
 
     function playVideo(id){
+      // mapping over to check if the ids are equal before downloading...
         videos.map((video)=>{
             if(video.id === id){
                 video.video_files.map((item)=>{
-                    videoLink = item.link
-                    console.log(videoLink);
+                // store the video url in a variable called videoLink
+                 <Link to={`/video/${id}`}>{item}</Link>
                 })
             }
             else{
@@ -31,10 +32,13 @@ export default function GetHomeVideos(){
     }
 
     function downloadVideo(id){
+      // mapping over to check if the ids are equal before downloading...
         videos.map((video)=>{
             if(video.id === id){
                 video.video_files.map((item)=>{
+                // store the video url in a variable called videoLink
                     videoLink = item.link
+                  // downloadFile is a function looking for two argument....the url and the name of the file
                     downloadFile(videoLink,item.file_type)
                 })
             }
@@ -42,30 +46,35 @@ export default function GetHomeVideos(){
                 return false
             }
         })
-    }
 
+    }
+     
+    // fetching the data using channing 
     const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
     client.videos.popular({ per_page: 36 }).then(videos => {
         setIsLoading(false)
         setIsError(false)
-        setVideos(videos.videos)
+        setVideos(videos.videos) // fetching data
     }).catch(err=>{
         setIsError(true)
-        setIsLoading(false)
+        setIsLoading(false)// catching errors
     });
 
+    // checking loading state
     if(isLoading){
         return(
             <LoadingData/>
         )
     }
 
+    // checking error state
     if(isError){
         return(
             <ErrorHandler/>
         ) 
     }
-    
+
+    //  Mapping over the array to display the fetched data
     let videoContainer = videos.map((video)=>{
         const {image,id,video_files} = video
         return(
@@ -84,7 +93,8 @@ export default function GetHomeVideos(){
            </Link>
         )
     })
+    // displaying the data if successfully fetched
     return(
-        <>{videoContainer}</>
+        <section className="image-container">{videoContainer}</section>
     )
 }
