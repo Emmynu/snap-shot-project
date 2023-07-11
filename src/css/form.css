@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    ::selection{
+        @apply bg-emerald-500 text-white
+    }
+    .form-container{
+        @apply absolute bg-white left-0 top-0 cursor-pointer pt-6 p-12 rounded-md shadow-xl w-full md:w-3/4 md:left-32 md:top-3 lg:w-1/2 lg:top-3 lg:left-1/4;
+       transition: all 3s linear
+    }
+    .login-image{
+        @apply w-full rounded-md select-none
+    }
+    .label{
+        @apply text-2xl font-bold mb-2 cursor-pointer select-none;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+    .email-option{
+        @apply text-small font-medium 
+    }
+    .form{
+        @apply mt-2  
+    }
+    .email,.password{
+        @apply w-full  py-2 border border-slate-800 rounded-sm outline-none mt-2.5 pl-3 
+    }
+    .forgot-password-label{
+        @apply mt-3.5 text-small cursor-pointer hover:underline;
+        transition: all 1s linear;
+    }
+    .login-btn{
+        @apply bg-emerald-500 text-white font-medium text-lg w-full py-1.5 rounded-md mt-3 select-none cursor-pointer
+    }
+}

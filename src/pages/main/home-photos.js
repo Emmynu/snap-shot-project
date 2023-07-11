@@ -1,12 +1,11 @@
 import { createClient } from 'pexels';
 import { Link } from "react-router-dom"
-import downloadIcon from "../images/download.png"
+import downloadIcon from "../../images/download.png"
 import { useState } from 'react';
 import { downloadFile } from './download';
-import ErrorHandler from './error';
-import "../css/home.css"
-import LoadingData from './loading';
-
+import ErrorHandler from '../loading&error/error';
+import LoadingData from '../loading&error/loading';
+import "../../index.css"
 
 export function GetHomePhotos(){
     const [homePhotos, setHomePhotos] = useState([])

@@ -1,7 +1,8 @@
 import React from "react"
-import errorSvg from "../images/error.gif"
+import errorSvg from "../../images/error.gif"
 
-export default function ErrorHandler(){
+
+ function ErrorHandler(){
     return(
        <section className="flex justify-center items-center">
         <div className="error-parent ">
@@ -11,3 +12,5 @@ export default function ErrorHandler(){
       </section>
     )
 }
+
+export default ErrorHandler 

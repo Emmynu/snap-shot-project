@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useParams,Link, useLocation } from "react-router-dom";
+import {Link, useParams } from "react-router-dom";
 import  { createClient } from "pexels"
-import "../css/home.css"
-import LoadingData from "./loading";
-import ErrorHandler from "./error";
+import LoadingData from "../loading&error/loading";
+import ErrorHandler from "../loading&error/error";
 import { downloadFile } from "./download";
+import "../../css/home.css"
  
 export default function HomePhotoDetailedPage(){
     const [photos, setPhotos] = useState([])
@@ -23,6 +23,7 @@ export default function HomePhotoDetailedPage(){
         (err)=>{
         setError(true)
         setIsLoading(false)
+        console.log(err);
     })
 
     function downloadImage(url,name){
@@ -45,6 +46,7 @@ export default function HomePhotoDetailedPage(){
         return(
             <div>
                 <ErrorHandler/>
+                
             </div>
         )
     }
@@ -57,7 +59,7 @@ export default function HomePhotoDetailedPage(){
                 <h2 className="dark:text-slate-100"><span className="text-base font-medium">Shot by :  </span> <span className="text-xl font-bold">{photos.photographer}</span></h2>
                 <h2 className="photo-alt dark:text-slate-100">{photos.alt}</h2>
                 <section className="mt-3">
-                    <Link to=".." relative="path" className="download py-1.5 mr-3">Return to home</Link>
+                    <Link to=".." className="download py-1.5 mr-3">Return to home</Link>
                     <button className="download" onClick={() => downloadImage(photos.src,photos.alt)}>{downloading ? "Downloading...": "Download"}</button>
                 </section>
             </section>

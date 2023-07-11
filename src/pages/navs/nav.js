@@ -1,17 +1,18 @@
 import React, { useReducer, useState } from "react";
-import { Outlet,  useSearchParams, NavLink,Link, json } from "react-router-dom";
-import "../css/nav.css"
-import arrowUpIcon  from "../images/arrow-up.png"
-import arrowDownIcon  from "../images/arrow-down.png"
-import searchIcon from "../images/search-icon.png"
-import darkModeIcon from "../images/dark-mode-icon.png"
-import lightModeIcon from "../images/light-mode-icon.png"
-import { createClient } from "pexels";
-import ErrorHandler from "./error";
-import searchInfo from "./search-info";
+import { Outlet,  useSearchParams, NavLink,Link } from "react-router-dom";
+import "../../css/nav.css"
+import arrowUpIcon  from "../../images/arrow-up.png"
+import arrowDownIcon  from "../../images/arrow-down.png"
+import searchIcon from "../../images/search-icon.png"
+import darkModeIcon from "../../images/dark-mode-icon.png"
+import lightModeIcon from "../../images/light-mode-icon.png"
+import searchInfo from "../main/search-info";
 import Nav from "./navigationBar";
+import { getSearchedPhotos,getSearchedVideo } from "../main/get-searched-info";
+import { auth } from "../firebase/firebase-config";
 
-
+// console.log(currentUser, auth);
+console.log(auth?.currentUser?.uid);   
 // reducer function
 function reducer(state, action){
     if(action.type === "CHANGE_THEME"){
@@ -38,6 +39,11 @@ function reducer(state, action){
       state.showNavigations = !state.showNavigations
       return{...state, showNavigations:state.showNavigations}
     }
+    if(action.type === "TOGGLE_FORM"){
+      state.showForm = !state.showForm
+      localStorage.setItem("show-form",JSON.stringify(state.showForm))
+      return{...state, showForm:state.showForm}
+    }
    throw new Error("No matching action")
 }
 
@@ -48,45 +54,19 @@ const changetheme = {
     showSmInput: false,
     showRecentlySearchedItems:false,
     SearchedItemsFromLocalStorage: JSON.parse(localStorage.getItem("recentlysearchedItems")) || [],
-    showNavigations:false
-
+    showNavigations:false,
+    showForm: false
 }
+
+
 export default function NavigationBar(){
     const [state,dispatch] = useReducer(reducer, changetheme)
     const [searchValue, setSearchValue] = useState("")
     const [searchParams, setSearchParams]= useSearchParams()
     const [searchedPhotos, setSearchedPhotos] = useState([])
     const [searchedVideos,setSearchedVideos] = useState([])
-    const [isError, setIsError] = useState(false)
     let type = searchParams.get("type")
-    
-
-   function getSearchedPhotos(){
-      const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
-      const query = searchValue;
-      client.photos.search({ query, per_page: 36 }).then(photos => {setSearchedPhotos(photos.photos); setIsError(false)}).catch(err=>{
-        setIsError(true)
-      });
-    }
-
-   function getSearchedVideo(){
-    const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
-    const query = searchValue;
-    client.videos.search({ query, per_page: 36 }).then(videos =>{ setSearchedVideos(videos.videos);setIsError(false)})
-    .catch(err => setIsError(true));
-  }
-
-    // handling the error
-    if(isError){
-      return(
-        <div>
-           <ErrorHandler />
-           <Link to="/" >Back to Home</Link>
-        </div>
-      )
-    }
-    
-
+  
    
 // function for toggling the theme of the website
     function changeTheme(){
@@ -106,14 +86,19 @@ export default function NavigationBar(){
       dispatch({type: "TOGGLE_NAV_SM"})
     }
 
+    // function for toggling the form
+    function toggleForm(){
+    dispatch({type:"TOGGLE_FORM"})
+    }
+
     function handleSubmit(e){
       e.preventDefault()
       if(searchValue.length > 0){
         if(type === "video"){
-          getSearchedVideo()
+          getSearchedVideo(searchedVideos, setSearchedVideos,searchValue)
         }
         else if(type === "photo"){
-          getSearchedPhotos();
+          getSearchedPhotos(searchedPhotos, setSearchedPhotos,searchValue);
         }
        searchInfo(searchValue)
       }
@@ -134,7 +119,7 @@ export default function NavigationBar(){
        <nav className="nav ">
           <nav className="navigation-container ">
               <section>
-                <h1 className="logo">Logo</h1>
+                <Link  to="/" className="logo">Logo</Link>
               </section>
 
               <section className="nav-second-container relative">
@@ -161,8 +146,9 @@ export default function NavigationBar(){
               <div>
                 <img src={state.isDarkMode ? lightModeIcon : darkModeIcon} alt="theme-icon" className="w-7" onClick={changeTheme}/>
                </div>
-                <button className="upload-btn">Upload</button>
-                <button className="upload-btn">Sign In</button>
+                {/* <button className="upload-btn">Upload</button> */}
+                <NavLink to="upload" className="upload-btn" replace={true}>Upload</NavLink>
+                <button className="upload-btn" onClick={toggleForm}>Sign In</button>
               </section>
 
             <section className="nav-fourth-section ">
@@ -174,11 +160,11 @@ export default function NavigationBar(){
                 <img src={state.isDarkMode ? lightModeIcon : darkModeIcon} alt="theme-icon" className="w-6" onClick={changeTheme}/>
                </div>
 
-              {!state.showNavigations ?  <div className="bar-container -mt-1" onClick={toggleNav}>
+              {!state.showNavigations ?  <div className="bar-container transition-all -mt-1" onClick={toggleNav}>
                   <div className="bar-1"></div>
                   <div  className="bar-2"></div>
                   <div  className="bar-3"></div>
-               </div> : <span onClick={toggleNav} className="text-2xl font-medium ml-0.5 mt-0 text-red-500">X</span>
+               </div> : <span onClick={toggleNav} className="text-2xl transition-all font-medium ml-0.5 mt-0 text-emerald-600">X</span>
                 }
             </section>
               {state.showNavigations && <Nav />}

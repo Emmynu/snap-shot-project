@@ -1,11 +1,11 @@
 import React, { useReducer, useState } from "react";
 import { Link } from "react-router-dom"
 import { createClient } from "pexels";
-import playIcon from "../images/play-icon.png"
-import downloadIcon from "../images/download.png"
+import playIcon from "../../images/play-icon.png"
+import downloadIcon from "../../images/download.png"
 import { downloadFile } from "./download";
-import ErrorHandler from "./error";
-import LoadingData from "./loading";
+import ErrorHandler from "../loading&error/error";
+import LoadingData from "../loading&error/loading";
 
 
 
@@ -78,7 +78,7 @@ export default function GetHomeVideos(){
     let videoContainer = videos.map((video)=>{
         const {image,id,video_files} = video
         return(
-           <Link to={`/video/${id}`}>
+           <Link to={`video/${id}`}>
             <section>
                 <div className="video-image-container relative">
                     <img src={image} alt="image_url"className="video-image cursor-pointer select-none" />

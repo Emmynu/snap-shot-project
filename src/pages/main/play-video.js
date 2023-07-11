@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useParams,Link, useLocation } from "react-router-dom";
 import  { createClient } from "pexels"
-import "../css/home.css"
-import LoadingData from "./loading";
-import ErrorHandler from "./error";
+import "../../css/home.css"
+import LoadingData from "../loading&error/loading";
+import ErrorHandler from "../loading&error/error";
 import { downloadFile } from "./download";
  
-export default function HomePhotoDetailedPage(){
-    console.log("played");
+export default function HomeVideoDetailedPage(){
     const [videos, setVideos] = useState([])
     const  params = useParams()
     const [error, setError] = useState(false)
     const [isLoading,  setIsLoading] = useState(true)
     const [downloading, setDownloading] = useState(false)
     let videoLink = {}
+    console.log(params);
 
     const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
 
