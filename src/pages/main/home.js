@@ -47,6 +47,8 @@ export default function HomePage(){
     let videoLink;
     let showForm = JSON.parse(localStorage.getItem("show-form"))
 
+    // useEffect
+
     // function for downloading each video
     function downloadVideo(id){
       // mapping over to check if the ids are equal before downloading...
@@ -139,6 +141,11 @@ export default function HomePage(){
    }
   //  console.log(auth?.createUser?.uid)
 
+  function removeForm(){
+    let showForm = JSON.parse(localStorage.getItem("show-form"))
+    showForm = !showForm
+    localStorage.setItem("show-form", JSON.stringify(showForm))
+  }
     return(
       <div className="relative">
        <main className="mt-32">
@@ -166,6 +173,7 @@ export default function HomePage(){
 
       {/* sign up / login page */}
         <main className={showForm ? "form-container": "hidden"} >
+          <button className="bg-slate-700 text-white font-bold text-medium rounded-full px-3 pt-0.5 pb-1" onClick={removeForm}>x</button>
           <div className="flex justify-center items-center mb-5 ">
             <NavLink  className=" mr-2 font-medium text-medium cursor-pointer select-none" onClick={() => setIndex(0)}>Register</NavLink >
             <NavLink  className=" mr-2 font-medium text-medium cursor-pointer select-none" onClick={()=> setIndex(1)}>Login</NavLink >

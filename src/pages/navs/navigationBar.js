@@ -9,8 +9,7 @@ export default function Nav(){
 
     function toggleForm(){
        showForm = !showForm
-    //    localStorage.setItem("show-form",JSON.stringify(showForm))
-    localStorage.setItem("show-form", JSON.stringify(showForm))
+       localStorage.setItem("show-form", JSON.stringify(showForm))
     }
 
     return(
