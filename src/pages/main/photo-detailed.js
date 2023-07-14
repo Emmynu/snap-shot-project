@@ -5,6 +5,7 @@ import LoadingData from "../loading&error/loading";
 import ErrorHandler from "../loading&error/error";
 import { downloadFile } from "./download";
 import "../../css/home.css"
+import { storeCollections } from "./collection-data";
  
 export default function HomePhotoDetailedPage(){
     const [photos, setPhotos] = useState([])
@@ -34,6 +35,9 @@ export default function HomePhotoDetailedPage(){
         },4000)
     }
   
+    function addImageToCollection(url){
+        storeCollections(url.large2x)
+    }
     if(isLoading){
         return(
             <div>
@@ -61,6 +65,7 @@ export default function HomePhotoDetailedPage(){
                 <section className="mt-3">
                     <Link to=".." className="download py-1.5 mr-3">Return to home</Link>
                     <button className="download" onClick={() => downloadImage(photos.src,photos.alt)}>{downloading ? "Downloading...": "Download"}</button>
+                    <button onClick={()=> addImageToCollection(photos.src)} className="add-to-collection">Add to collections</button>
                 </section>
             </section>
         </main>

@@ -9,10 +9,9 @@ import lightModeIcon from "../../images/light-mode-icon.png"
 import searchInfo from "../main/search-info";
 import Nav from "./navigationBar";
 import { getSearchedPhotos,getSearchedVideo } from "../main/get-searched-info";
-import { auth } from "../firebase/firebase-config";
+let fromLocal = localStorage.getItem("id")
 
-// console.log(currentUser, auth);
-console.log(auth?.currentUser?.uid);   
+
 // reducer function
 function reducer(state, action){
     if(action.type === "CHANGE_THEME"){
@@ -39,11 +38,6 @@ function reducer(state, action){
       state.showNavigations = !state.showNavigations
       return{...state, showNavigations:state.showNavigations}
     }
-    if(action.type === "TOGGLE_FORM"){
-      state.showForm = !state.showForm
-      localStorage.setItem("show-form",JSON.stringify(state.showForm))
-      return{...state, showForm:state.showForm}
-    }
    throw new Error("No matching action")
 }
 
@@ -55,7 +49,6 @@ const changetheme = {
     showRecentlySearchedItems:false,
     SearchedItemsFromLocalStorage: JSON.parse(localStorage.getItem("recentlysearchedItems")) || [],
     showNavigations:false,
-    showForm: false
 }
 
 
@@ -84,11 +77,6 @@ export default function NavigationBar(){
 
     function toggleNav(){
       dispatch({type: "TOGGLE_NAV_SM"})
-    }
-
-    // function for toggling the form
-    function toggleForm(){
-    dispatch({type:"TOGGLE_FORM"})
     }
 
     function handleSubmit(e){
@@ -147,8 +135,8 @@ export default function NavigationBar(){
                 <img src={state.isDarkMode ? lightModeIcon : darkModeIcon} alt="theme-icon" className="w-7" onClick={changeTheme}/>
                </div>
                 {/* <button className="upload-btn">Upload</button> */}
-                <NavLink to="upload" className="upload-btn" replace={true}>Upload</NavLink>
-                <button className="upload-btn" onClick={toggleForm}>Sign In</button>
+               {fromLocal === "" || fromLocal === null ? <Link to="/login" className="upload-btn">Upload</Link>: <Link to="/upload" className="upload-btn">Upload</Link>}
+                <Link to="/signup" className="upload-btn">Sign In</Link>
               </section>
 
             <section className="nav-fourth-section ">
@@ -180,6 +168,9 @@ export default function NavigationBar(){
              </div>
              <div className="links pb-1">
                 <NavLink to="?type=video">Videos</NavLink>
+             </div>
+             <div className="links pb-1 -mt-1">
+              <NavLink to="/collections" className="font-semibold text-medium underline">Collections</NavLink>
              </div>
           </div>
        </nav>

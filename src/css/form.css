@@ -7,8 +7,7 @@
         @apply bg-emerald-500 text-white
     }
     .form-container{
-        @apply fixed bg-white left-0 z-50 top-20 overflow-scroll cursor-pointer pt-6 p-12 rounded-md shadow-xl w-full md:w-3/4 md:left-32
-         md:top-36 lg:w-1/2 lg:top-36 lg:left-1/4;
+        @apply  bg-white  cursor-pointer mt-24 ml-0 pt-6 p-12 rounded-md shadow-xl w-full lg:w-3/5 md:w-4/5 lg:ml-16 md:ml-16 md:mt-32 lg:mt-32;
        transition: all 3s linear
     }
     .login-image{
@@ -33,5 +32,14 @@
     }
     .login-btn{
         @apply bg-emerald-500 text-white font-medium text-lg w-full py-1.5 rounded-md mt-3 select-none cursor-pointer
+    }
+    .none-active{
+        @apply mr-2 font-medium text-medium cursor-pointer select-none
+    }
+    .active{
+        @apply mr-2 font-medium text-medium cursor-pointer select-none underline
+    }
+    .form-error{
+        @apply text-center text-base text-red-500 font-medium 
     }
 }

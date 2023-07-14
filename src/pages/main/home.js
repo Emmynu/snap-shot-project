@@ -8,10 +8,7 @@ import GetHomeVideos from "./home-videos"
 import playIcon from "../../images/play-icon.png"
 import downloadIcon from "../../images/download.png"
 import { downloadFile } from "./download";
-import demo from "../../images/demo.jpg"
-import createUser from "../auth/register-user";
-import loginUserIn from "../auth/login-user";
-import { auth } from "../firebase/firebase-config";
+
 
 //  the reducer function
 function reducer(state, action){
@@ -32,7 +29,7 @@ const smFilters = {
 export default function HomePage(){
     const [ searchParams, setSearchParams] = useSearchParams()
     const [state, dispatch] = useReducer(reducer, smFilters)
-    const [index, setIndex] = useState(0)
+    const [currentUser, setCurrentUser] = useState("")
 
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
@@ -41,11 +38,11 @@ export default function HomePage(){
     const [loginPassword, setLoginPassword] = useState("")
     const [loginEmail, setLoginEmail] = useState("")
     
+    const [users, setUsers] = useState([])
     // passed from the parent Route as a context
     let { searchValue,searchedPhotos,searchedVideos } = useOutletContext()
     let filterType = searchParams.get("type")
     let videoLink;
-    let showForm = JSON.parse(localStorage.getItem("show-form"))
 
     // useEffect
 
@@ -129,23 +126,8 @@ export default function HomePage(){
     function toggleSmFilter(){
       dispatch({type: "TOGGLE_SM_FILTER"})
     }
+ 
 
-   function handleSubmit(e){
-    e.preventDefault()
-     createUser(username,email,password)
-   }
-
-   function handleLogin(){
-    loginUserIn(loginEmail,loginPassword)
-  //  console.log(auth?.createUser?.uid)
-   }
-  //  console.log(auth?.createUser?.uid)
-
-  function removeForm(){
-    let showForm = JSON.parse(localStorage.getItem("show-form"))
-    showForm = !showForm
-    localStorage.setItem("show-form", JSON.stringify(showForm))
-  }
     return(
       <div className="relative">
        <main className="mt-32">
@@ -168,81 +150,6 @@ export default function HomePage(){
         <div >
             {HomeInfo}
         </div>
-    
-
-
-      {/* sign up / login page */}
-        <main className={showForm ? "form-container": "hidden"} >
-          <button className="bg-slate-700 text-white font-bold text-medium rounded-full px-3 pt-0.5 pb-1" onClick={removeForm}>x</button>
-          <div className="flex justify-center items-center mb-5 ">
-            <NavLink  className=" mr-2 font-medium text-medium cursor-pointer select-none" onClick={() => setIndex(0)}>Register</NavLink >
-            <NavLink  className=" mr-2 font-medium text-medium cursor-pointer select-none" onClick={()=> setIndex(1)}>Login</NavLink >
-          </div>
-          {/* login Page */}
-          <section className={index === 1 ? "block": "hidden"}>
-            {/* container */}
-            <section className="grid grid-cols-1 items-start  md:grid-cols-2 lg:grid-cols-2">
-
-              <article className="md:w-3/4 lg:3/4">
-                <img src={demo} className="login-image"/>
-              </article>
-
-              <article>
-                <h2 className="label mt-2">Log in to your account</h2>
-
-                {/* login options */}
-                <div></div>
-                {/* end of login options */}
-
-                <h2 className="email-option">log in with an email</h2>
-
-                <form className="form">
-                  <input  type="email" className="email" placeholder="Email" value={loginEmail} onChange={(e)=>setLoginEmail(e.target.value)}/>
-                  <input  type="password" className="password" placeholder="Password"  value={loginPassword} onChange={(e)=>setLoginPassword(e.target.value)}/>
-                </form>
-
-                <h2 className="forgot-password-label">Forgot your password?</h2>
-                <button className="login-btn" onClick={handleLogin}>Log in</button>
-
-              </article>
-
-            </section>
-
-          </section>
-
-          {/* end of login page */}
-
-          {/* register page */}
-          <section className={index === 0 ? "block": "hidden"}>
-          <section className="grid grid-cols-1 items-start md:grid-cols-2 lg:grid-cols-2">
-
-            <article className="w-full md:w-3/4 lg:3/4">
-              <img src={demo} className="login-image"/>
-            </article>
-
-            <article>
-              <h2 className="label mt-2">Create an account</h2>
-
-              {/* login options */}
-              <div></div>
-              {/* end of login options */}
-
-              <h2 className="email-option">register with an email</h2>
-
-              <form className="form" onSubmit={handleSubmit}>
-                <input  type="text" className="email" placeholder="Username" value={username} onChange={(e)=> setUsername(e.target.value)}/> 
-                <input  type="email" className="email" placeholder="Email"  value={email} onChange={(e)=> setEmail(e.target.value)}/>
-                <input  type="password" className="password" placeholder="Password"  value={password} onChange={(e)=> setPassword(e.target.value)}/>
-                <button className="login-btn"  onClick={handleSubmit}>Register</button>
-              </form>
-
-            </article>
-
-            </section>
-          </section>
-
-          {/* end of register */}
-        </main>
       </div>
     )
 }

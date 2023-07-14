@@ -3,14 +3,9 @@ import { Link } from "react-router-dom"
 import gitHubIcon from "../../images/github-icon.png"
 import instagramIcon from "../../images/instagram-icon.png"
 import linkedinIcon from "../../images/linkedin-icon.png"
+let fromLocal = localStorage.getItem("id")
 
 export default function Nav(){
-    let showForm =  JSON.parse(localStorage.getItem("show-form"))
-
-    function toggleForm(){
-       showForm = !showForm
-       localStorage.setItem("show-form", JSON.stringify(showForm))
-    }
 
     return(
         <nav className="sm-nav-bar">
@@ -22,9 +17,9 @@ export default function Nav(){
         </main>
 
         <main className="sm-nav-section">
-            <Link to="/">Your Profile</Link><br></br>
-            <Link to="/">Collections</Link><br></br>
-            <Link to="/">Uploaded Images</Link><br></br>
+            <Link to="/profile">Your Profile</Link><br></br>
+            <Link to="/collections">Collections</Link><br></br>
+            <Link to="/myupload">Uploaded Images</Link><br></br>
         </main>
 
         <main className="sm-nav-section">
@@ -33,9 +28,10 @@ export default function Nav(){
             <Link to="/">Search for Images</Link><br></br>
         </main>
 
-        <main className=" px-2 border-b border-slate-50 py-4 mb-3">
-        <button  className="sm-nav-button" onClick={toggleForm}>Sign In</button>
-        <Link to="upload" className="sm-nav-button">Upload </Link>
+        <main className=" px-2 border-b border-slate-50 py-4 mb-3 ">
+        <Link to="/signup" className="sm-nav-button" >Sign In</Link>
+        {fromLocal === "" || fromLocal === null ? <Link to="/login" className="sm-nav-button">Upload</Link>:
+         <Link to="/upload" className="sm-nav-button">Upload</Link>}
         </main>
 
         <main className="font-medium text-sm  py-6 pl-3 flex justify-center items-center">
