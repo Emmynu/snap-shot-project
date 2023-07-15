@@ -38,10 +38,10 @@ export default function Nav(){
             <Link to="https://github.com/Emmynu">
                 <img src={gitHubIcon} alt="github-icon" className="w-8 bg-slate-50 rounded-sm"/>
             </Link>
-            <Link to="/">
+            <Link to="/https://www.linkedin.com/in/similoluwa-emmanuel-082873260">
                 <img src={instagramIcon} alt="instagram-icon" className="w-8 bg-slate-50 rounded-sm ml-2" />
             </Link>
-            <Link to="/">
+            <Link to="https://www.linkedin.com/in/similoluwa-emmanuel-082873260">
                 <img src={linkedinIcon} alt="linkedin-icon"  className="w-8 bg-slate-50 rounded-sm ml-2"/>
             </Link>        
         </main>

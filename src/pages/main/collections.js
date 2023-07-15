@@ -17,12 +17,19 @@ export default function UserCollections(){
        else{
         try {
             displayCollections(setCollections)
-            collection.filter((item) => item.id === id)
             setIsError(false)
         } catch (error) {
             setIsError(true)
         }
        }
+    },[collection])
+    let filteredCollection = collection.filter((item) =>{
+        if(item.id  === id){
+            return true 
+        }
+        else{
+            return false
+        }
     })
     if(isError){
         return <>
@@ -37,10 +44,10 @@ export default function UserCollections(){
             </div>
           {collection.length > 0 ?
           <section  className="collection-container">
-          {collection.map((item)=>{
+          {filteredCollection.map((item)=>{
                 return(
                     <div className="collection-image-container">
-                        <img src={item.url} alt={item.id} className="image" />
+                        <img src={item.url} alt={item.id} className="image"/>
                     </div>
                 )
             })}
