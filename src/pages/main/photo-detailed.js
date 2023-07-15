@@ -14,6 +14,7 @@ export default function HomePhotoDetailedPage(){
     const [error, setError] = useState(false)
     const [isLoading,  setIsLoading] = useState(true)
     const [downloading, setDownloading] = useState(false)
+    const [addToCollection, setAddToCollection] =  useState(false)
 
     const client = createClient('WOoM2JZpjLLERoU7VozswwS1EfF9c6zq14zzmlVikGB5Oii93KGWmtBJ');
     client.photos.show({ id: params.homePhotoId }).then(photo =>{
@@ -36,7 +37,12 @@ export default function HomePhotoDetailedPage(){
     }
   
     function addImageToCollection(url){
+        setAddToCollection(true)
         storeCollections(url.large2x)
+
+        setTimeout(() => {
+            setAddToCollection(false)
+        }, 3000);
     }
     if(isLoading){
         return(
@@ -65,7 +71,7 @@ export default function HomePhotoDetailedPage(){
                 <section className="mt-3">
                     <Link to=".." className="download py-1.5 mr-3">Return to home</Link>
                     <button className="download" onClick={() => downloadImage(photos.src,photos.alt)}>{downloading ? "Downloading...": "Download"}</button>
-                    <button onClick={()=> addImageToCollection(photos.src)} className="add-to-collection">Add to collections</button>
+                    <button onClick={()=> addImageToCollection(photos.src)} className="add-to-collection">{addToCollection ? <h2>Loading..</h2> : <h2>Add to collection</h2>}</button>
                 </section>
             </section>
         </main>

@@ -8,11 +8,16 @@ import { Link } from "react-router-dom"
 export default function UploadFiles(){
     const [files, setFiles] = useState(null)
     const [uploaded, setUploaded] = useState("Upload Files")
+    const [error,setError] = useState(false)
     let fromLocal = localStorage.getItem("id")
 
     function uploadimage(){
         if(files == null || files.length <= 0) {
-            alert("Please choose a file")
+            setError(true)
+
+            setTimeout(() => {
+              setError(false)
+            }, 3000);
         }
        else{
           if(fromLocal !== "" || fromLocal !== null){
@@ -24,7 +29,7 @@ export default function UploadFiles(){
                     setUploaded("Upload Files")
                 })
             } catch (error) {
-                console.log(error.message);
+               setError(true)
             }
           }
           else{
@@ -34,6 +39,7 @@ export default function UploadFiles(){
     }
     return(
         <div className="mt-32">
+          {error && <h2 className="text-center text-lg mb-3 text-red-600 font-medium">An error occured! Please try again.</h2>}
           <div className="flex justify-center">
             <input type="file" onChange={(e)=> setFiles(e.target.files[0])} className="upload-input"/>
           </div>

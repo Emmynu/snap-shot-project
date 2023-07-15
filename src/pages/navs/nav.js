@@ -8,6 +8,7 @@ import darkModeIcon from "../../images/dark-mode-icon.png"
 import lightModeIcon from "../../images/light-mode-icon.png"
 import searchInfo from "../main/search-info";
 import Nav from "./navigationBar";
+
 import { getSearchedPhotos,getSearchedVideo } from "../main/get-searched-info";
 let fromLocal = localStorage.getItem("id")
 
@@ -148,20 +149,20 @@ export default function NavigationBar(){
                 <img src={state.isDarkMode ? lightModeIcon : darkModeIcon} alt="theme-icon" className="w-6" onClick={changeTheme}/>
                </div>
 
-              {!state.showNavigations ?  <div className="bar-container transition-all -mt-1" onClick={toggleNav}>
+              <div onClick={toggleNav}>
                   <div className="bar-1"></div>
                   <div  className="bar-2"></div>
                   <div  className="bar-3"></div>
-               </div> : <span onClick={toggleNav} className="text-2xl transition-all font-medium ml-0.5 mt-0 text-emerald-600">X</span>
-                }
+              </div>
             </section>
-              {state.showNavigations && <Nav />}
+            {state.showNavigations && <Nav />}
+         
             </nav>
 
             <form className="flex justify-center" onSubmit={handleSubmit}>
                 <input type="text" className={` ${state.showSmInput ? "sm-input" : "hidden"}`} placeholder={`search for ${type || "photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)}/>
             </form>
-
+            
           <div className={`${state.showFilter ? "filter-box-container": "hidden"}`}>
              <div className="links">
                 <NavLink to="?type=photo">Photos</NavLink>
@@ -174,6 +175,8 @@ export default function NavigationBar(){
              </div>
           </div>
        </nav>
+
+       
         <Outlet context={{ searchValue, searchedPhotos,searchedVideos }}/>
       </>
     )

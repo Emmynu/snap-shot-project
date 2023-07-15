@@ -42,7 +42,7 @@ export default function UserCollections(){
              <div className="title-container">
                 <h1 className="title text-center">Your Collections</h1>
             </div>
-          {collection.length > 0 ?
+          {filteredCollection.length > 0 ?
           <section  className="collection-container">
           {filteredCollection.map((item)=>{
                 return(
