@@ -40,7 +40,7 @@ export default function UserCollections(){
     return(
         <section className="mt-32">
              <div className="title-container">
-                <h1 className="title text-center">Your Collections</h1>
+                <h1 className="title text-center dark:text-slate-50">Your Collections</h1>
             </div>
           {filteredCollection.length > 0 ?
           <section  className="collection-container">

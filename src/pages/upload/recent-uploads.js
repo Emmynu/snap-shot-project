@@ -4,7 +4,6 @@ import { getDownloadURL, listAll,ref } from "firebase/storage"
 import errorImage from "../../images/error.gif"
 
 import "../../css/upload.css"
-import { downloadFile } from "../main/download"
 
 let images =  []
 let uid = localStorage.getItem("id")
@@ -40,7 +39,7 @@ export default function UploadedFiles(){
     return(
        <main className="mt-32 ">
          <div className="title-container">
-                <h1 className="title text-center">Your Photos</h1>
+                <h1 className="title text-center dark:text-slate-50">Your Photos</h1>
             </div>
         <section  className="">
             { uploadedImages.length > 0 ?

@@ -155,11 +155,11 @@ export default function NavigationBar(){
                   <div  className="bar-3"></div>
               </div>
             </section>
-            {state.showNavigations && <Nav />}
+            {state.showNavigations && <section onClick={toggleNav}> <Nav /></section>}
          
             </nav>
 
-            <form className="flex justify-center" onSubmit={handleSubmit}>
+            <form className="flex justify-center" onSubmit={handleSubmit} >
                 <input type="text" className={` ${state.showSmInput ? "sm-input" : "hidden"}`} placeholder={`search for ${type || "photos"}`} value={searchValue} onChange={(e)=> setSearchValue(e.target.value)}/>
             </form>
             

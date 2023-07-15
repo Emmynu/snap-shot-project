@@ -71,7 +71,7 @@ export default function HomePhotoDetailedPage(){
                 <section className="mt-3">
                     <Link to=".." className="download py-1.5 mr-3">Return to home</Link>
                     <button className="download" onClick={() => downloadImage(photos.src,photos.alt)}>{downloading ? "Downloading...": "Download"}</button>
-                    <button onClick={()=> addImageToCollection(photos.src)} className="add-to-collection">{addToCollection ? <h2>Loading..</h2> : <h2>Add to collection</h2>}</button>
+                    <button onClick={()=> addImageToCollection(photos.src)} className="add-to-collection dark:bg-slate-50 text-slate-700 border-none">{addToCollection ? <h2>Loading..</h2> : <h2>Add to collection</h2>}</button>
                 </section>
             </section>
         </main>
