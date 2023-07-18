@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import demo from "../../images/demo.jpg"
 import { NavLink } from "react-router-dom";
+import { loginUser } from "./auth";
+import { push,ref,set } from "firebase/database";
 import { db } from "../firebase/firebase-config";
-import { onValue, ref, push } from "firebase/database";
 
 export default function CreateUser(){
     const [username, setUsername] = useState("")
     const [isLoaing, setIsLoading] = useState(false)
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
+    const [users, setUsers] = useState([])
     const [isError, setisError] = useState("")
     
+    useEffect(()=>{
+    loginUser(setUsers)
+      console.log(users);
+    },[users])
 
     function handleSubmit(e){
         e.preventDefault()
+
         if(username.length > 0 && userEmail.length > 0 && userPassword.length > 0){
             let userData = {
                 userId: new Date().getTime(),
@@ -21,14 +28,22 @@ export default function CreateUser(){
                 email:userEmail,
                 password:userPassword
             }
-            push(ref(db, "users"),userData)
-            console.log(userData);
+            
+           users.filter((user)=>{
+              if(user.email !== userEmail && user.username !== username){
+                push(ref(db, "users/"),userData)
+                setIsLoading(true)
 
-            setIsLoading(true)
+                setTimeout(()=>{
+                  window.location ="/login"
+                },2000)
+              }
+              else{
+                alert("user exists")
+              }
+           })
 
-            setTimeout(()=>{
-               window.location= "/login"
-            },2000)
+
         }
         else{
           setisError("Please fill out all input field")
@@ -43,7 +58,6 @@ export default function CreateUser(){
         <>
       {/* sign up / login page */}
       <main className="form-container">
-       <span className="form-error">{isError}</span>
           {/* register page */}
           <section>
           <div className="flex justify-center items-center mb-5 ">
@@ -59,9 +73,10 @@ export default function CreateUser(){
             <article>
               <h2 className="label mt-2">Create an account</h2>
 
-              {/* login options */}
-              <div></div>
-              {/* end of login options */}
+              {/* state */}
+              <span className="form-error">{isError}</span>
+
+              {/* end of state */}
 
               <h2 className="email-option">register with an email</h2>
 

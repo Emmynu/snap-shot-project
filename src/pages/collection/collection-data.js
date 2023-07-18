@@ -1,11 +1,12 @@
-import { db } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";   
 import { onValue, ref, push } from "firebase/database";
-import ErrorHandler from "../loading&error/error";
+import { deleteObject } from "firebase/storage";
 
 export function storeCollections(url){
     try {
         let collections = {
-            id: localStorage.getItem("id"),
+            userId: localStorage.getItem("id"),
+            imageId:new Date().getTime().toString(),
             url
         }
         push(ref(db, "collections"),collections)
@@ -14,7 +15,7 @@ export function storeCollections(url){
     }
 }
 
-export function displayCollections(getCollections){
+export function getCollections(getCollections){
     let collectionsRef = ref(db,"collections")
     onValue(collectionsRef,(collection=>{
         getCollections(Object.values(collection.val()))

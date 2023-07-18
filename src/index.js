@@ -9,7 +9,7 @@ import UploadFiles from './pages/upload/upload';
 import CreateUser from './pages/auth/signup-page';
 import Login from './pages/auth/login-page';
 import UploadedFiles from './pages/upload/recent-uploads';
-import UserCollections from './pages/main/collections';
+import UserCollections from './pages/collection/collections';
 import PageNotFound from './pages/loading&error/page-not-found';
 
 function Main(){

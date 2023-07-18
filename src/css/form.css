@@ -7,39 +7,39 @@
         @apply bg-emerald-500 text-white
     }
     .form-container{
-        @apply  bg-white  cursor-pointer mt-24 ml-0 pt-6 p-12 rounded-md shadow-xl w-full lg:w-3/5 md:w-4/5 lg:ml-16 md:ml-16 md:mt-32 lg:mt-32;
+        @apply  bg-white dark:bg-slate-500  cursor-pointer mt-24 ml-0 pt-6 p-12 rounded-md shadow-xl w-full lg:w-3/5 md:w-4/5 lg:ml-32 md:ml-16 md:mt-32 lg:mt-32;
        transition: all 3s linear
     }
     .login-image{
         @apply w-full rounded-md select-none
     }
     .label{
-        @apply text-2xl font-bold mb-2 cursor-pointer select-none;
+        @apply text-2xl font-bold cursor-pointer select-none dark:text-slate-200;
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
     .email-option{
-        @apply text-small font-medium 
+        @apply text-small font-medium dark:text-slate-100
     }
     .form{
         @apply mt-2  
     }
     .email,.password{
-        @apply w-full  py-2 border border-slate-800 rounded-sm outline-none mt-2.5 pl-3 
+        @apply w-full  py-2 border border-slate-800 rounded-sm outline-none mt-2.5 pl-3 dark:bg-slate-300 dark:text-slate-800
     }
     .forgot-password-label{
-        @apply mt-3.5 text-small cursor-pointer hover:underline;
+        @apply mt-3.5 text-small cursor-pointer hover:underline text-slate-100;
         transition: all 1s linear;
     }
     .login-btn{
         @apply bg-emerald-500 text-white font-medium text-lg w-full py-1.5 rounded-md mt-3 select-none cursor-pointer
     }
     .none-active{
-        @apply mr-2 font-medium text-medium cursor-pointer select-none
+        @apply mr-2 font-medium text-medium cursor-pointer select-none dark:text-slate-100
     }
     .active{
-        @apply mr-2 font-medium text-medium cursor-pointer select-none underline
+        @apply mr-2 font-medium text-medium cursor-pointer select-none underline dark:text-slate-100
     }
     .form-error{
-        @apply text-center text-base text-red-500 font-medium 
+        @apply text-center text-base mb-1 text-red-500 font-medium 
     }
 }

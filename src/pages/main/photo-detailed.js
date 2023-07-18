@@ -5,8 +5,8 @@ import LoadingData from "../loading&error/loading";
 import ErrorHandler from "../loading&error/error";
 import { downloadFile } from "./download";
 import "../../css/home.css"
-import { storeCollections } from "./collection-data";
- 
+import { storeCollections } from "../collection/collection-data";
+
 export default function HomePhotoDetailedPage(){
     const [photos, setPhotos] = useState([])
     const [image, setImage] = useState([])
@@ -62,6 +62,7 @@ export default function HomePhotoDetailedPage(){
     }
     return(
         <main className="home-detailed-photos-container mt-36">
+           
             <section>
                 {<img src={image.large2x}  />}
             </section>
@@ -69,9 +70,10 @@ export default function HomePhotoDetailedPage(){
                 <h2 className="dark:text-slate-100"><span className="text-base font-medium">Shot by :  </span> <span className="text-xl font-bold">{photos.photographer}</span></h2>
                 <h2 className="photo-alt dark:text-slate-100">{photos.alt}</h2>
                 <section className="mt-3">
+                <h2>{addToCollection &&<span>Added to collection</span>}</h2>
                     <Link to=".." className="download py-1.5 mr-3">Return to home</Link>
                     <button className="download" onClick={() => downloadImage(photos.src,photos.alt)}>{downloading ? "Downloading...": "Download"}</button>
-                    <button onClick={()=> addImageToCollection(photos.src)} className="add-to-collection dark:bg-slate-50 text-slate-700 border-none">{addToCollection ? <h2>Loading..</h2> : <h2>Add to collection</h2>}</button>
+                    <button onClick={()=> addImageToCollection(photos.src)} className="add-to-collection dark:bg-slate-50 dark:text-slate-700 dark:border-none">{addToCollection ? <h2>Loading..</h2> : <h2>Add to collection</h2>}</button>
                 </section>
             </section>
         </main>

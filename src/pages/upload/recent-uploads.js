@@ -4,6 +4,7 @@ import { getDownloadURL, listAll,ref } from "firebase/storage"
 import errorImage from "../../images/error.gif"
 
 import "../../css/upload.css"
+import { downloadFile } from "../main/download"
 
 let images =  []
 let uid = localStorage.getItem("id")
@@ -29,6 +30,7 @@ function getUploadedImages(){
     }
 }
 
+
 export default function UploadedFiles(){
 
     useEffect(()=>{
@@ -47,7 +49,7 @@ export default function UploadedFiles(){
                 { uploadedImages.map((image)=>{
                     const {userId,url} = image
                     return(
-                    <div className="upload-image-parent">
+                    <div className="upload-image-parent" >
                         <img src={url} alt={userId} className="upload-image"/>
                     </div>
                     )
@@ -58,7 +60,7 @@ export default function UploadedFiles(){
                     <div className="flex justify-center">
                         <img src={errorImage} alt="" />
                     </div>
-                    <h1 className="text-center font-bold text-xl">No Image found</h1>    
+                    <h1 className="text-center font-bold text-xl dark:text-slate-50">No Image found</h1>    
                 </div>}
          </section>
        </main>

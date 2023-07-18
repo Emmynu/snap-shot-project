@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import demo from "../../images/demo.jpg"
 import { NavLink } from "react-router-dom";
 import { loginUser } from "./auth";
@@ -7,16 +7,17 @@ import { loginUser } from "./auth";
 export default function Login(){
     const [email, setEmail] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
-    const [currentUser, setCurrentUser] = useState([])
-    const [reConfirm, setReconfirm] = useState("Login")
+    const [logUserIn, setLogUserIn] = useState([])
     const [errorState, setErrorState] = useState("")
+    
+    useEffect(()=>{
+      loginUser(setLogUserIn)
+    },[logUserIn])
     
     function handleLogin(){
         if(loginPassword.length > 0 && email.length > 0){
          try {
-          loginUser(setCurrentUser)
-          setReconfirm("Recofirm Login")
-          currentUser.filter((user)=>{
+          logUserIn.filter((user)=>{
               if(user.email === email && user.password === loginPassword){
                   localStorage.setItem("id", JSON.stringify(user.userId))
                   window.location = "/"
@@ -24,7 +25,7 @@ export default function Login(){
          
           })
          } catch (error) {
-          console.log(error);
+          setErrorState("An error occured. Please try again")
          }
         }
         else{
@@ -65,7 +66,7 @@ export default function Login(){
                   <input  type="email" className="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
                   <input  type="password" className="password" placeholder="Password"  value={loginPassword} onChange={(e)=>setLoginPassword(e.target.value)}/>
                   <h2 className="forgot-password-label">Forgot your password?</h2>
-                <button className="login-btn" onClick={handleLogin}>{reConfirm}</button>
+                <button className="login-btn" onClick={handleLogin}>Login</button>
                 </div>
               </article>
 

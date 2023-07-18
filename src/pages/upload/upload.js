@@ -8,16 +8,16 @@ import { Link } from "react-router-dom"
 export default function UploadFiles(){
     const [files, setFiles] = useState(null)
     const [uploaded, setUploaded] = useState("Upload Files")
-    const [error,setError] = useState(false)
+    const [uploadState,setUploadState] = useState("")
     let fromLocal = localStorage.getItem("id")
 
     function uploadimage(){
         if(files == null || files.length <= 0) {
-            setError(true)
-
-            setTimeout(() => {
-              setError(false)
-            }, 3000);
+          setUploadState("An error occured. Please try again! ")
+          setTimeout(() => {
+            setUploadState("")
+          }, 3000);
+        
         }
        else{
           if(fromLocal !== "" || fromLocal !== null){
@@ -28,18 +28,27 @@ export default function UploadFiles(){
                     setFiles(null)
                     setUploaded("Upload Files")
                 })
+
+                setUploadState("Sucessfully Uploaded")
+                setTimeout(() => {
+                  setUploadState("")
+                }, 3000);
+
             } catch (error) {
-               setError(true)
+              setUploadState("An error occured. Please try again!")
+              setTimeout(() => {
+                setUploadState("")
+              }, 3000);
             }
           }
           else{
-            <Navigate to="/signup"/>
+            window.location = "/signup"
           }
        }
     }
     return(
         <div className="mt-32">
-          {error && <h2 className="text-center text-lg mb-3 text-red-600 font-medium">An error occured! Please try again.</h2>}
+          <h2 className="mb-2 text-center text-lg font-medium text-slate-700 dark:text-slate-50">{uploadState}</h2>
           <div className="flex justify-center">
             <input type="file" onChange={(e)=> setFiles(e.target.files[0])} className="upload-input"/>
           </div>
