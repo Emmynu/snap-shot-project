@@ -15,7 +15,7 @@ export default function CreateUser(){
     
     useEffect(()=>{
     loginUser(setUsers)
-      console.log(users);
+      // console.log(users);
     },[users])
 
     function handleSubmit(e){
@@ -39,7 +39,7 @@ export default function CreateUser(){
                 },2000)
               }
               else{
-                alert("user exists")
+               setisError("User Exists")
               }
            })
 
